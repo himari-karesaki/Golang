@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	// "strconv"
 )
 
 func main() {
@@ -11,15 +10,6 @@ func main() {
 	fmt.Print("割られる数を入力してください: ")
 	_, err := fmt.Scan(&a)
 
-	// // a, err = strconv.Atoi(a)
-	// //割られる数についての処理
-
-	// // a, err = strconv.Atoi(str)
-	// // a, err = strconv.Atoi(a)
-	// //入力値の例
-	// // str1 := "12"
-
-	// a, err = strconv.Atoi(str1) //str1にスキャンしたaを代入したい
 	if err != nil {
 		//入力値が数値でなかった場合のエラー処理
 		fmt.Println("エラー:数値を入力してください")
@@ -32,13 +22,11 @@ func main() {
 		return
 	}
 
-	// _, err := fmt.Scan(&b)
 	//割る数についての処理
 	fmt.Print("割る数を入力してください: ")
-	// fmt.Scan(&b)
+
 	_, err = fmt.Scan(&b)
-	// println(b)
-	// b, err = strconv.Atoi(str2)
+
 	if err != nil {
 		//エラー処理
 		fmt.Println("数値を入力してください")
