@@ -38,9 +38,9 @@ func main() {
 		println("処理を終了します")
 		return
 	}
-	// println("こんばんは")
-	c := a / b
-	// println("さようなら")
-	fmt.Printf("%d ÷ %d = %d\n", a, b, c)
+	//割り算をする処理
+	c := float64(a) / float64(b)
+
+	fmt.Printf("%d ÷ %d = %.1f\n", a, b, c)
 	fmt.Println("処理を終了します")
 }
