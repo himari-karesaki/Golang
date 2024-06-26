@@ -7,7 +7,7 @@ func main() {
 	taxPrice := tax()                            //消費税額
 	var taxProduct float64 = subtotal + taxPrice //商品の税込価格
 
-	fmt.Printf("%v円の商品の税込価格は%v円(消費税は%v円)です\n", subtotal, taxProduct, taxPrice)
+	fmt.Printf("%v円の商品の税込価格は%v円(消費税は%v円)です。\n", subtotal, taxProduct, taxPrice)
 }
 
 // 消費税を計算する関数
