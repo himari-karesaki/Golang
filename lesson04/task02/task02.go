@@ -37,7 +37,7 @@ func main() {
 
 		//入力した値をスライスwordsに格納
 		words = append(words, word)
-		fmt.Println(words)
+		// fmt.Println(words)
 
 	}
 
