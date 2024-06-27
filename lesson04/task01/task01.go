@@ -16,7 +16,7 @@ func main() {
 	//無限ループの設定
 	for {
 		//「点数を入力してください：」を表示させる
-		fmt.Println("点数を入力してください：")
+		fmt.Print("点数を入力してください：")
 		//点数の入力を受け付ける
 		fmt.Scan(&score)
 
@@ -31,24 +31,20 @@ func main() {
 
 		//入力した点数をスライスに追加
 		scores = append(scores, score)
-		fmt.Println(scores)
 
 		//点数の合計値を求める
 		var sum float64 = sumScore(scores)
 
 		//人数を求める処理
 		count := len(scores)
-		// fmt.Println(count)
 
 		// 平均点を求める処理
 		average := sum / float64(count)
-		// fmt.Println(average)
 
 		var newAverage float64 = float64(average)
 
 		//averageを小数第一位まで四捨五入する
 		Round(average, 1)
-		// fmt.Println(newAverage)
 
 		// 「○○人のテストの平均点は△△点です」と表示させる
 		// 平均点の出力の際は小数点第一位まで表示させる
