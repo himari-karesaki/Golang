@@ -22,6 +22,7 @@ func main() {
 
 		//「-1」が入力されたら無限ループを抜ける
 		if score == -1 {
+
 			if length := len(scores); length == 0 {
 				//点数が入力されなかった場合の処理
 				fmt.Println("点数が入力されませんでした")
@@ -32,25 +33,27 @@ func main() {
 		//入力した点数をスライスに追加
 		scores = append(scores, score)
 
-		//点数の合計値を求める
-		var sum float64 = sumScore(scores)
-
-		//人数を求める処理
-		count := len(scores)
-
-		// 平均点を求める処理
-		average := sum / float64(count)
-
-		var newAverage float64 = float64(average)
-
-		//averageを小数第一位まで四捨五入する
-		Round(average, 1)
+		// var newAverage float64 = float64(average)
 
 		// 「○○人のテストの平均点は△△点です」と表示させる
 		// 平均点の出力の際は小数点第一位まで表示させる
-		fmt.Printf("%v人のテストの平均点は%.1f点です\n", count, newAverage)
+		// fmt.Printf("%v人のテストの平均点は%.1f点です\n", count, newAverage)
 	}
+	// 点数の合計値を求める
+	var sum float64 = sumScore(scores)
+	// 人数を求める処理
+	count := len(scores)
+	// 平均点を求める処理
+	average := sum / float64(count)
 
+	//averageを小数第一位まで四捨五入する
+	Round(average, 1)
+
+	newAverage := float64(sumScore(scores) / float64(len(scores)))
+
+	// 「○○人のテストの平均点は△△点です」と表示させる
+	// 平均点の出力の際は小数点第一位まで表示させる
+	fmt.Printf("%v人のテストの平均点は%.1f点です\n", count, newAverage)
 }
 
 // 点数の合計値を求める関数
