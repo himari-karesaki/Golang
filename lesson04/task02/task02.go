@@ -21,8 +21,8 @@ func main() {
 		//英単語の標準入力
 		fmt.Scan(&word)
 
-		// //mapに文字数を格納する
-		// counts := make(map[rune]int)
+		//mapに文字数を格納する
+		counts := make(map[rune]int)
 		// fmt.Println(counts)
 
 		//endが入力されたらループを終了
@@ -31,6 +31,10 @@ func main() {
 			fmt.Println("入力した英単語：")
 			for _, word := range words {
 				fmt.Println(word)
+			}
+			fmt.Println("アルファベットごとの文字数：")
+			for key, value := range counts {
+				fmt.Printf("%v:%v\n", key, value)
 			}
 			break
 		}
