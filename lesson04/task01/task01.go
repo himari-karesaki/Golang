@@ -32,12 +32,6 @@ func main() {
 
 		//入力した点数をスライスに追加
 		scores = append(scores, score)
-
-		// var newAverage float64 = float64(average)
-
-		// 「○○人のテストの平均点は△△点です」と表示させる
-		// 平均点の出力の際は小数点第一位まで表示させる
-		// fmt.Printf("%v人のテストの平均点は%.1f点です\n", count, newAverage)
 	}
 	// 点数の合計値を求める
 	var sum float64 = sumScore(scores)
@@ -49,7 +43,7 @@ func main() {
 	//averageを小数第一位まで四捨五入する
 	Round(average, 1)
 
-	newAverage := float64(sumScore(scores) / float64(len(scores)))
+	var newAverage float64 = float64(average)
 
 	// 「○○人のテストの平均点は△△点です」と表示させる
 	// 平均点の出力の際は小数点第一位まで表示させる
