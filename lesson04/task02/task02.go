@@ -36,7 +36,7 @@ func main() {
 			}
 
 			fmt.Println("アルファベットごとの文字数：")
-			// fmt.Println(counts)
+			//mapからキーと値を取り出して表示する
 			for key, count := range counts {
 				fmt.Printf("%v:%d\n", string(key), count)
 			}
