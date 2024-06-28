@@ -43,22 +43,22 @@ func main() {
 					// fmt.Println(str)
 					//ここをどうにかする
 					//変数にしたい
-					if str == 97 {
-						counts['a']++
-					}
+
+					counts[str]++
+
 				}
 
 			}
 
 			fmt.Println("アルファベットごとの文字数：")
-
-			for {
-				//countsにaが入っているか確認し、入っていたらその値を表示する
-				if value, ok := counts['a']; ok {
-					fmt.Printf("a: %d\n", value)
-					break //aが入っていたらループを抜ける
-				}
-			}
+			fmt.Println(counts)
+			// for {
+			// 	//countsにaが入っているか確認し、入っていたらその値を表示する
+			// 	if value, ok := counts['a']; ok {
+			// 		fmt.Printf("a: %d\n", value)
+			// 		break //aが入っていたらループを抜ける
+			// 	}
+			// }
 		}
 
 		//入力した値をスライスwordsに格納
