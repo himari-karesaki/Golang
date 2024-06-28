@@ -14,7 +14,7 @@ func main() {
 	//アルファベットの文字数を格納する変数の宣言
 	counts := make(map[rune]int)
 
-	fmt.Print("英単語を入力してください(endと入力するとループを終了します): ")
+	fmt.Println("英単語を入力してください(endと入力するとループを終了します): ")
 
 	//無限ループの作成
 	for {
@@ -51,14 +51,11 @@ func main() {
 			}
 
 			fmt.Println("アルファベットごとの文字数：")
-			fmt.Println(counts)
-			// for {
-			// 	//countsにaが入っているか確認し、入っていたらその値を表示する
-			// 	if value, ok := counts['a']; ok {
-			// 		fmt.Printf("a: %d\n", value)
-			// 		break //aが入っていたらループを抜ける
-			// 	}
-			// }
+			// fmt.Println(counts)
+			for key, count := range counts {
+				fmt.Printf("%v:%d\n", key, count)
+			}
+
 		}
 
 		//入力した値をスライスwordsに格納
