@@ -7,22 +7,12 @@ import (
 func main() {
 	//英単語を入力する変数の宣言
 	var word string
+
 	//英単語を格納するスライスの宣言
 	words := make([]string, 0)
+
 	//アルファベットの文字数を格納する変数の宣言
 	counts := make(map[rune]int)
-
-	// for {
-	// 	//aの個数をカウントする
-	// 	counts['a']++
-	// 	fmt.Println(counts['a'])
-
-	// 	if value, ok := counts['a']; ok {
-	// 		fmt.Printf("a: %d\n", value)
-	// 		break // key1 exists. value = 10
-	// 	}
-
-	// }
 
 	fmt.Print("英単語を入力してください(endと入力するとループを終了します): ")
 
@@ -31,56 +21,47 @@ func main() {
 		//英単語の標準入力
 		fmt.Scan(&word)
 
-		// //mapに文字数を格納する
-		// counts := make(map[rune]int)
-		// fmt.Println(counts)
-		//もしwordがaならカウントする
-		if word == "a" {
-			counts['a']++
-		}
-		// counts['a']++
+		//wordsの中にaがはいっているかを確認する処理に変更する
+		//wordsの中にaがはいっているかを確認する処理は、for文でwordsの中身を一文字ずつに分解してaが含まれているか確認する
+		// for _, word := range words {
+		// 	// fmt.Printf("Value: %v\n", word)
+		// 	//aが含まれているか確認
+
+		// }
+
 		//endが入力されたらループを終了
 		if word == "end" {
 			//入力した英単語の表示
 			fmt.Println("入力した英単語：")
 			for _, word := range words {
 				fmt.Println(word)
-				//この中でワードを一文字ずつに分解する処理を書く
+
+				//wordがaならcountsのaの値をインクリメントする処理
+				//aを変数にする
+				//wordの中身を一文字ずつに分解する
+				for _, str := range word {
+					// fmt.Println(str)
+					//ここをどうにかする
+					//変数にしたい
+					if str == 97 {
+						counts['a']++
+					}
+				}
+
 			}
-
-			//countsにaが含まれていたらカウントする
-
-			//countsmapにaの値を表示する
-			// counts["a"]++
-			//mapcountsのaの値を表示する
-			// fmt.Println(counts['a'])
 
 			fmt.Println("アルファベットごとの文字数：")
 
 			for {
-				//aの個数をカウントする
-				// counts['a']++
-				// fmt.Println(counts['a'])
-
+				//countsにaが入っているか確認し、入っていたらその値を表示する
 				if value, ok := counts['a']; ok {
 					fmt.Printf("a: %d\n", value)
-					break // key1 exists. value = 10
+					break //aが入っていたらループを抜ける
 				}
-
 			}
-			// //アルファベットごとに文字数を表示する処理
-			// if value, exists := counts['a']; exists {
-			// 	//aが存在したら、aの数を表示する
-			// 	fmt.Println("a:", value)
-			// } else {
-			// 	//なければ何も表示しない
-			// 	fmt.Println("")
-			// }
 		}
 
 		//入力した値をスライスwordsに格納
 		words = append(words, word)
-		// fmt.Println(words)
-
 	}
 }
