@@ -53,9 +53,9 @@ func main() {
 			fmt.Println("アルファベットごとの文字数：")
 			// fmt.Println(counts)
 			for key, count := range counts {
-				fmt.Printf("%v:%d\n", key, count)
+				fmt.Printf("%v:%d\n", string(key), count)
 			}
-
+			break
 		}
 
 		//入力した値をスライスwordsに格納
