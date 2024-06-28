@@ -10,9 +10,19 @@ func main() {
 	//英単語を格納するスライスの宣言
 	words := make([]string, 0)
 	//アルファベットの文字数を格納する変数の宣言
-	// counts := make(map[rune]int)
-	// counts['a']++
-	// fmt.Println(counts)
+	counts := make(map[rune]int)
+	// counts['a'] = 1
+	for {
+		//aの個数をカウントする
+		counts['a']++
+		fmt.Println(counts['a'])
+
+		if value, ok := counts['a']; ok {
+			fmt.Printf("a: %d\n", value)
+			break // key1 exists. value = 10
+		}
+
+	}
 
 	fmt.Print("英単語を入力してください(endと入力するとループを終了します): ")
 
@@ -21,8 +31,8 @@ func main() {
 		//英単語の標準入力
 		fmt.Scan(&word)
 
-		//mapに文字数を格納する
-		counts := make(map[rune]int)
+		// //mapに文字数を格納する
+		// counts := make(map[rune]int)
 		// fmt.Println(counts)
 
 		//endが入力されたらループを終了
@@ -31,11 +41,26 @@ func main() {
 			fmt.Println("入力した英単語：")
 			for _, word := range words {
 				fmt.Println(word)
+				//この中でワードを一文字ずつに分解する処理を書く
+
 			}
+
+			//countsにaが含まれていたらカウントする
+			counts['a']++
+
+			// counts["a"]++
+			//mapcountsのaの値を表示する
+			fmt.Println(counts['a'])
+
 			fmt.Println("アルファベットごとの文字数：")
-			for key, value := range counts {
-				fmt.Printf("%v:%v\n", key, value)
+			//アルファベットごとに文字数を表示する処理
+			for _, value := range counts {
+				fmt.Printf("a:%d\n", value)
+				//ここに問題がありそう
+
+				// fmt.Println(count)
 			}
+
 			break
 		}
 
@@ -44,28 +69,4 @@ func main() {
 		// fmt.Println(words)
 
 	}
-
-	// マップの要素aをカウント
-	//もし文字aが入っていたらカウントする
-	// var a string
-	// if value, exists := counts["a"]; exists {
-	// 	counts["a"]++
-	// 	fmt.Println("a:", value)
-	// } else {
-	// 	fmt.Println("a does not exist")
-	// }
-
 }
-
-// //アルファベットの文字数をカウントする関数
-// func countA(a []string) int {
-// 	for _, a := range word {
-// 	counts["a"]++
-// }
-
-// func countWords(words []string) int {
-// 	// キーの存在チェック
-// 	if value, exists := m["a"]; exists {
-// 		fmt.Println("a:", value)
-// 	}
-// }
