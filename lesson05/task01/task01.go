@@ -4,10 +4,10 @@ import "fmt"
 
 // Petインターフェースの定義
 type Pet interface {
-	Name()  //ペットの名前を文字列で返す
-	Eat()   //ペットが食事をすることを表す
-	Play()  //ペットが遊ぶことを表す
-	Sleep() //ペットが眠ることを表す
+	Name() string //ペットの名前を文字列で返す
+	Eat() int     //ペットが食事をすることを表す
+	Play() int    //ペットが遊ぶことを表す
+	Sleep() int   //ペットが眠ることを表す
 }
 
 // 構造体の定義
@@ -17,79 +17,72 @@ type Dog struct {
 	energy int
 }
 
+// Dog関連のメソッド
+// Dogの名前を返すメソッド
+func (d *Dog) Name() string {
+	return d.name
+}
+
+// DogのEatメソッドでエネルギーが10増えた値を返す
+func (d *Dog) Eat() int {
+	//Dogのenergyを10増やす処理
+	return d.energy + 10
+}
+
+// DogのPlayメソッドでエネルギーが5減った値を返す
+func (d *Dog) Play() int {
+	//Dogのenergyを5減らす処理
+	return d.energy - 5
+}
+
+// DogのSleepメソッドでエネルギーが20増えた値を返す
+func (d *Dog) Sleep() int {
+	//Dogのenergyを20増やす処理
+	return d.energy + 20
+}
+
 // Cat構造体
 type Cat struct {
 	name string
 	mood string
 }
 
-func (d Dog) Name() string {
-	return d.name
-}
-
-func (d Dog) Eat() int {
-	//Dogのenergyを10増やす処理
-	return d.energy + 10
-}
-
-func (d Dog) Play() int {
-	//Dogのenergyを5減らす処理
-	return d.energy - 5
-}
-
-func (d Dog) Sleep() int {
-	//Dogのenergyを20増やす処理
-	return d.energy + 20
-}
-
+// Cat関連のメソッド
+// Catの名前を返すメソッド
 func (c Cat) Name() string {
 	return c.name
 }
 
+// CatのEatメソッドで文字列"happy"を返す
 func (c Cat) Eat() string {
 	//Catのmoodをhappyにする処理
-	return "happy"
+	return c.mood
 }
 
+// CatのPlayメソッドで文字列"playful"を返す
 func (c Cat) Play() string {
 	//Catのmoodをplayfulにする処理
-	return "playful"
+	return c.mood
 }
 
+// CatのSleepメソッドで文字列"sleepy"を返す
 func (c Cat) Sleep() string {
 	//Catのmoodをsleepyにする処理
-	return "sleepy"
+	return c.mood
 }
 
-// Dog 関数は、any型のスライスを受け取り、DogなのかCatなのか判断し、どちらかの挙動を返す
-func DogOrCat(Pets []any) (string, int) {
-	for _, pet := range Pets {
-		switch v := pet.(type) {
-		case Dog:
-			name := v.Name()
-			energyCheck := v.Eat()
-			fmt.Printf("バディの情報:\nバディは%v。 エネルギー： %v\n", name, energyCheck)
-
-		case Cat:
-			name := v.Name()
-			moodCheck := v.Sleep()
-			fmt.Printf("ウィスカーの情報:\nウィスカーは%v。 気分： %v\n", name, moodCheck)
-		}
-	}
-	return "", 0
-}
-
-// main関数
 func main() {
-	//Petスライスを作成
-	Pets := []any{
-		Dog{name: "ポチ", energy: 50},
-		Cat{name: "ネコ", mood: "sleepy"},
-	}
+	d := Dog{name: "バディ", energy: 50}
+	c := Cat{name: "ウィスカー", mood: "幸せ"}
+	//Dogの情報
+	fmt.Printf("%vの情報：\n", d.Name())
+	fmt.Printf("%vは食事をしています。エネルギー：%v\n", d.Name(), d.Eat())
+	fmt.Printf("%vは遊んでいます。エネルギー：%v\n", d.Name(), d.Play())
+	fmt.Printf("%vは眠っています。エネルギー：%v\n", d.Name(), d.Sleep())
 
-	//Petスライスの各要素に対し、各メソッドを実行する処理
-
-	//結果を出力する処理
-	//あとで動作のところを追加
-	fmt.Printf("%v%v", DogOrCat(Pets))
+	// Catの情報
+	fmt.Printf("%vの情報：\n", c.Name())
+	fmt.Printf("%vは食事をしています。気分： %v\n", c.Name(), c.Eat())
+	// fmt.Printf("%vは遊んでいます。\n", c.Name(), c.Play())
+	// fmt.Printf("%vは眠っています。\n", c.Name(), c.Sleep())
 }
