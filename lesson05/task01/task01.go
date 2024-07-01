@@ -5,9 +5,9 @@ import "fmt"
 // Petインターフェースの定義
 type Pet interface {
 	Name() string //ペットの名前を文字列で返す
-	Eat() int     //ペットが食事をすることを表す
-	Play() int    //ペットが遊ぶことを表す
-	Sleep() int   //ペットが眠ることを表す
+	Eat()         //ペットが食事をすることを表す
+	Play()        //ペットが遊ぶことを表す
+	Sleep()       //ペットが眠ることを表す
 }
 
 // 構造体の定義
@@ -49,40 +49,62 @@ type Cat struct {
 
 // Cat関連のメソッド
 // Catの名前を返すメソッド
-func (c Cat) Name() string {
+func (c *Cat) Name() string {
 	return c.name
 }
 
 // CatのEatメソッドで文字列"happy"を返す
-func (c Cat) Eat() string {
+func (c *Cat) Eat() string {
 	//Catのmoodをhappyにする処理
 	return c.mood
 }
 
 // CatのPlayメソッドで文字列"playful"を返す
-func (c Cat) Play() string {
+func (c *Cat) Play() string {
 	//Catのmoodをplayfulにする処理
 	return c.mood
 }
 
 // CatのSleepメソッドで文字列"sleepy"を返す
-func (c Cat) Sleep() string {
+func (c *Cat) Sleep() string {
 	//Catのmoodをsleepyにする処理
 	return c.mood
 }
 
 func main() {
-	d := Dog{name: "バディ", energy: 50}
-	c := Cat{name: "ウィスカー", mood: "幸せ"}
-	//Dogの情報
-	fmt.Printf("%vの情報：\n", d.Name())
-	fmt.Printf("%vは食事をしています。エネルギー：%v\n", d.Name(), d.Eat())
-	fmt.Printf("%vは遊んでいます。エネルギー：%v\n", d.Name(), d.Play())
-	fmt.Printf("%vは眠っています。エネルギー：%v\n", d.Name(), d.Sleep())
+	//Petスライスを作成
+	Pet := []any{
+		Dog{name: "バディ", energy: 50},
+		Cat{name: "ウィスカー", mood: ""},
+	}
 
-	// Catの情報
-	fmt.Printf("%vの情報：\n", c.Name())
-	fmt.Printf("%vは食事をしています。気分： %v\n", c.Name(), c.Eat())
-	// fmt.Printf("%vは遊んでいます。\n", c.Name(), c.Play())
-	// fmt.Printf("%vは眠っています。\n", c.Name(), c.Sleep())
+	TotalAreaAndPerimeter(Pet)
+}
+
+func TotalAreaAndPerimeter(pets []any) {
+	// var name, mood string
+	// var energy int
+
+	for _, pet := range pets {
+		switch v := pet.(type) {
+		case Dog:
+			name := v.Name()
+			eat := v.Eat()
+			play := v.Play()
+			sleep := v.Sleep()
+			fmt.Printf("%vの情報：\n", name)
+			fmt.Printf("%vは食事をしています。エネルギー：%v\n", name, eat)
+			fmt.Printf("%vは遊んでいます。エネルギー：%v\n", name, play)
+			fmt.Printf("%vは眠っています。エネルギー：%v\n", name, sleep)
+
+		case Cat:
+			name := v.Name()
+			mood := v.mood()
+			fmt.Printf("%vの情報：\n", name)
+			fmt.Printf("%vは食事をしています。気分： %v\n", name, mood)
+			fmt.Printf("%vは遊んでいます。気分： %v\n", name, mood)
+			fmt.Printf("%vは眠っています。気分： %v\n", name, mood)
+		}
+	}
+	return
 }
