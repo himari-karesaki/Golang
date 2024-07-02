@@ -5,6 +5,7 @@ import (
 )
 
 func TestCalculator(t *testing.T) {
+	//Calculatorのオブジェクトを保持する変数
 	var calc *Calculator
 
 	// テストデータの準備
@@ -13,10 +14,11 @@ func TestCalculator(t *testing.T) {
 	}
 
 	// テストデータのクリーンアップ
+	//teardownはテストデータの後始末を行うヘルパー関数と呼ばれている
 	teardown := func() {
 		calc = nil
 	}
-
+	//サブテスト群
 	// 加算のテスト
 	t.Run("Addition", func(t *testing.T) {
 		setup()
@@ -67,6 +69,7 @@ func TestCalculator(t *testing.T) {
 	t.Run("ComplexCalculation", func(t *testing.T) {
 		setup()
 		defer teardown()
+		// 組み合わせて正しく動くかどうかを確認している
 		calc.Add(2)
 		calc.Multiply(3)
 		calc.Subtract(1)
@@ -78,6 +81,7 @@ func TestCalculator(t *testing.T) {
 }
 
 // 期待値と実際の値が等しいかどうかを検証
+// 関数化して評価することでコードが短くなっている
 func assertEqual(t *testing.T, actual, expected int) {
 	t.Helper()
 	if actual != expected {

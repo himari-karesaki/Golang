@@ -5,12 +5,14 @@ import (
 	"golang/lesson07/calc"
 )
 
-// 計算結果を保持
+// 計算結果を保持している構造体
+// 連続した計算が行える
 type Calculator struct {
 	result int
 }
 
 // 新しいCalculatorを返す
+// Newとすることで構造体のオブジェクトを代入する
 func NewCalculator() *Calculator {
 	return &Calculator{}
 }
