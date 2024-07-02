@@ -26,19 +26,25 @@ func (d *Dog) Name() string {
 // DogのEatメソッドでエネルギーが10増えた値を返す
 func (d *Dog) Eat() int {
 	//Dogのenergyを10増やす処理
-	return d.energy + 10
+	d.energy = d.energy + 10
+	return d.energy
 }
 
 // DogのPlayメソッドでエネルギーが5減った値を返す
 func (d *Dog) Play() int {
 	//Dogのenergyを5減らす処理
-	return d.energy - 5
+
+	d.energy = d.energy - 5
+	return d.energy
 }
 
 // DogのSleepメソッドでエネルギーが20増えた値を返す
 func (d *Dog) Sleep() int {
 	//Dogのenergyを20増やす処理
-	return d.energy + 20
+	d.energy = d.energy + 20
+
+	// ここの関数がおかしそう
+	return d.energy
 }
 
 // Cat構造体
@@ -77,7 +83,6 @@ func main() {
 		Dog{name: "バディ", energy: 50},
 		Cat{name: "ウィスカー", mood: ""},
 	}
-
 	DogAndCat(Pet)
 }
 
@@ -95,7 +100,7 @@ func DogAndCat(pets []any) {
 			fmt.Printf("%vは遊んでいます。エネルギー：%v\n", name, play)
 			fmt.Printf("%vは眠っています。エネルギー：%v\n", name, sleep)
 			//PetsスライスにDogの名前とエネルギーを追加
-			pets = append(pets, Dog{name: name, energy: eat})
+			// pets = append(pets, Dog{name: name, energy: eat})
 
 		case Cat:
 			name := p.Name()
@@ -107,8 +112,8 @@ func DogAndCat(pets []any) {
 			fmt.Printf("%vは食事をしています。気分： %v\n", name, eat)
 			fmt.Printf("%vは遊んでいます。気分： %v\n", name, play)
 			fmt.Printf("%vは眠っています。気分： %v\n", name, sleep)
-			pets = append(pets, Cat{name: name, mood: eat})
+			// pets = append(pets, Cat{name: name, mood: eat})
 		}
 	}
-	return
+	// return
 }
