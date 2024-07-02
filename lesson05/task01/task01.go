@@ -56,19 +56,19 @@ func (c *Cat) Name() string {
 // CatのEatメソッドで文字列"happy"を返す
 func (c *Cat) Eat() string {
 	//Catのmoodをhappyにする処理
-	return c.mood
+	return "幸せ" //happyにする処理
 }
 
 // CatのPlayメソッドで文字列"playful"を返す
 func (c *Cat) Play() string {
 	//Catのmoodをplayfulにする処理
-	return c.mood
+	return "遊び心" //playfulにする処理
 }
 
 // CatのSleepメソッドで文字列"sleepy"を返す
 func (c *Cat) Sleep() string {
 	//Catのmoodをsleepyにする処理
-	return c.mood
+	return "眠い" //sleepyにする処理
 }
 
 func main() {
@@ -78,32 +78,36 @@ func main() {
 		Cat{name: "ウィスカー", mood: ""},
 	}
 
-	TotalAreaAndPerimeter(Pet)
+	DogAndCat(Pet)
 }
 
-func TotalAreaAndPerimeter(pets []any) {
-	// var name, mood string
-	// var energy int
+func DogAndCat(pets []any) {
 
 	for _, pet := range pets {
-		switch v := pet.(type) {
+		switch p := pet.(type) {
 		case Dog:
-			name := v.Name()
-			eat := v.Eat()
-			play := v.Play()
-			sleep := v.Sleep()
+			name := p.Name()
+			eat := p.Eat()
+			play := p.Play()
+			sleep := p.Sleep()
 			fmt.Printf("%vの情報：\n", name)
 			fmt.Printf("%vは食事をしています。エネルギー：%v\n", name, eat)
 			fmt.Printf("%vは遊んでいます。エネルギー：%v\n", name, play)
 			fmt.Printf("%vは眠っています。エネルギー：%v\n", name, sleep)
+			//PetsスライスにDogの名前とエネルギーを追加
+			pets = append(pets, Dog{name: name, energy: eat})
 
 		case Cat:
-			name := v.Name()
-			mood := v.mood()
+			name := p.Name()
+			eat := p.Eat()
+			play := p.Play()
+			sleep := p.Sleep()
+
 			fmt.Printf("%vの情報：\n", name)
-			fmt.Printf("%vは食事をしています。気分： %v\n", name, mood)
-			fmt.Printf("%vは遊んでいます。気分： %v\n", name, mood)
-			fmt.Printf("%vは眠っています。気分： %v\n", name, mood)
+			fmt.Printf("%vは食事をしています。気分： %v\n", name, eat)
+			fmt.Printf("%vは遊んでいます。気分： %v\n", name, play)
+			fmt.Printf("%vは眠っています。気分： %v\n", name, sleep)
+			pets = append(pets, Cat{name: name, mood: eat})
 		}
 	}
 	return
