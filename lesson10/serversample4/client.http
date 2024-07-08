@@ -23,4 +23,4 @@ content-type: application/json
 }
 
 ### Delete: 特定の本を削除
-DELETE http://localhost:8080/books/2 HTTP/1.1
+DELETE http://localhost:8080/books/1 HTTP/1.1

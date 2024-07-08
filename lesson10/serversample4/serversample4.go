@@ -21,6 +21,9 @@ type Book struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+// books スライスを宣言
+var books []Book
+
 var db *gorm.DB
 
 func main() {
@@ -92,7 +95,6 @@ func handleBook(w http.ResponseWriter, r *http.Request) {
 
 // getBooks は全ての本を取得
 func getBooks(w http.ResponseWriter, r *http.Request) {
-	var books []Book
 	result := db.Find(&books)
 	if result.Error != nil {
 		http.Error(w, "クエリの実行に失敗しました", http.StatusInternalServerError)
@@ -104,23 +106,32 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 // createBook は新しい本を作成
 func createBook(w http.ResponseWriter, r *http.Request) {
 	var book Book
-	// 未実装
-	// json.NewDecoder(r.Body).Decode(&book)
-	// book.ID = len(books) + 1
-	// book.CreatedAt = time.Now()
-	// books = append(books, book)
+	//リクエストボディから新しい本の情報をデコード
+	json.NewDecoder(r.Body).Decode(&book)
+	book.ID = len(books) + 1
+	//現在の時刻を設定
+	book.CreatedAt = time.Now()
+	// 新たな本をbooksスライスに追加
+	books = append(books, book)
+
+	//作成された本の情報をJSONレスポンスとしてクライアントに送信
 	json.NewEncoder(w).Encode(book)
+
+	// //エラーの実装//書き換える
+	// http.NotFound(w, r)
 }
 
 // getBook は特定の本を取得
 func getBook(w http.ResponseWriter, r *http.Request, id int) {
-	// 未実装
-	// for _, book := range books {
-	//   if book.ID == id {
-	//     json.NewEncoder(w).Encode(book)
-	//     return
-	//   }
-	// }
+	for _, book := range books {
+		//指定されたIDに一致する本を取得
+		if book.ID == id {
+			//取得した本の情報を、JSONレスポンスとしてエンコードし、クライアントに送信
+			json.NewEncoder(w).Encode(book)
+			return
+		}
+	}
+	//本が見つからない場合は、404エラーレスポンスを返す
 	http.NotFound(w, r)
 }
 
@@ -147,13 +158,16 @@ func updateBook(w http.ResponseWriter, r *http.Request, id int) {
 
 // deleteBook は特定の本を削除
 func deleteBook(w http.ResponseWriter, r *http.Request, id int) {
-	// 未実装
-	// for i, book := range books {
-	//   if book.ID == id {
-	//     books = append(books[:i], books[i+1:]...)
-	//     w.WriteHeader(http.StatusNoContent)
-	//     return
-	//   }
-	// }
+	for i, book := range books {
+		//指定されたIDに一致する本をデータベースから取得
+		if book.ID == id {
+			//本が見つかった場合は、取得した本をデータベースから削除する
+			books = append(books[:i], books[i+1:]...)
+			//本の削除が成功した場合は、w.WriteHeader(http.StatusNoContent) を使用して204 No Contentステータスコードを返す
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+	}
+	//本が見つからない場合は、404エラーレスポンスを返す
 	http.NotFound(w, r)
 }
