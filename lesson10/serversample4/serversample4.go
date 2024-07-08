@@ -106,6 +106,12 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 // createBook は新しい本を作成
 func createBook(w http.ResponseWriter, r *http.Request) {
 	var book Book
+	result := db.Create(&book)
+	if result.Error != nil {
+		http.NotFound(w, r)
+		return
+	}
+
 	//リクエストボディから新しい本の情報をデコード
 	json.NewDecoder(r.Body).Decode(&book)
 	book.ID = len(books) + 1
@@ -116,9 +122,6 @@ func createBook(w http.ResponseWriter, r *http.Request) {
 
 	//作成された本の情報をJSONレスポンスとしてクライアントに送信
 	json.NewEncoder(w).Encode(book)
-
-	// //エラーの実装//書き換える
-	// http.NotFound(w, r)
 }
 
 // getBook は特定の本を取得
@@ -158,11 +161,12 @@ func updateBook(w http.ResponseWriter, r *http.Request, id int) {
 
 // deleteBook は特定の本を削除
 func deleteBook(w http.ResponseWriter, r *http.Request, id int) {
-	for i, book := range books {
+
+	for _, book := range books {
 		//指定されたIDに一致する本をデータベースから取得
 		if book.ID == id {
 			//本が見つかった場合は、取得した本をデータベースから削除する
-			books = append(books[:i], books[i+1:]...)
+			db.Delete(&book)
 			//本の削除が成功した場合は、w.WriteHeader(http.StatusNoContent) を使用して204 No Contentステータスコードを返す
 			w.WriteHeader(http.StatusNoContent)
 			return
