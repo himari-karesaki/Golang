@@ -1,4 +1,5 @@
-// 全ての記事を取得して表示する関数 function getPosts() {
+// 全ての記事を取得して表示する関数 
+function getPosts() {
     fetch('http://localhost:8080/posts')
     .then(response => response.json())
     .then(posts => {
@@ -16,6 +17,7 @@
 id="${post.id}">Like</button></td>`;
         tbody.appendChild(row);
 });
+
 // いいねボタンのクリックイベントを追加
 const likeButtons = document.querySelectorAll('.like-btn'); likeButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -23,6 +25,7 @@ const likeButtons = document.querySelectorAll('.like-btn'); likeButtons.forEach(
           likePost(postId);
 }); });
 }); }
+
 // 新しい記事を追加する関数
 function addPost(title, content) {
   const post = {
@@ -40,7 +43,8 @@ getPosts();
       document.querySelector('#postForm').reset();
     });
 }
-// 記事にいいねを追加する関数 function likePost(postId) {
+// 記事にいいねを追加する関数 
+function likePost(postId) {
   fetch(`http://localhost:8080/posts/${postId}`, {
     method: 'POST'
   })
@@ -48,8 +52,10 @@ getPosts();
       getPosts();
     });
 }
-// ページ読み込み時に全ての記事を取得して表示 document.addEventListener('DOMContentLoaded', getPosts);
-// 新しい記事を追加するフォームの送信イベント document.querySelector('#postForm').addEventListener('submit', event => {
+// ページ読み込み時に全ての記事を取得して表示 
+document.addEventListener('DOMContentLoaded', getPosts);
+// 新しい記事を追加するフォームの送信イベント 
+document.querySelector('#postForm').addEventListener('submit', event => {
   event.preventDefault();
   const title = document.querySelector('#title').value;
   const content = document.querySelector('#content').value;
