@@ -40,6 +40,7 @@ func main() {
 	db.AutoMigrate(&Post{})
 
 	// ルートハンドラの登録
+	//パスの設定
 	http.HandleFunc("/posts", handlePosts)
 	http.HandleFunc("/posts/", handlePost)
 
@@ -89,6 +90,9 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	case http.MethodDelete:
 		// 特定の投稿を削除
 		deletePost(w, r, id)
+	case http.MethodPost:
+		// 特定の投稿に対していいねを追加
+		likesPost(w, r, id)
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
@@ -110,7 +114,12 @@ func createPost(w http.ResponseWriter, r *http.Request) {
 
 	//リクエストボディから新しい投稿の情報をデコード
 	json.NewDecoder(r.Body).Decode(&post)
-	post.ID = len(posts) + 1
+
+	//postIDの最大値を探す処理
+	db.Find("id >?", post.ID).Last(&post)
+
+	// postIDの最大値に1を加える
+	post.ID++
 
 	//現在の時刻を設定
 	post.CreatedAt = time.Now()
@@ -179,4 +188,25 @@ func deletePost(w http.ResponseWriter, r *http.Request, id int) {
 	}
 	//投稿が見つからない場合は、404エラーレスポンスを返す
 	http.NotFound(w, r)
+}
+
+// likesPost は特定の投稿にいいねを付ける
+func likesPost(w http.ResponseWriter, r *http.Request, id int) {
+	var post Post
+	result := db.First(&post, id)
+	if result.Error != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	var likesPost Post
+	json.NewDecoder(r.Body).Decode(&likesPost)
+	//いいね項目の値をインクリメントする
+	post.Likes++
+	result = db.Save(&post)
+	if result.Error != nil {
+		http.Error(w, "投稿のいいねに失敗しました", http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(post)
 }
