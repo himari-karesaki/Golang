@@ -15,7 +15,7 @@ import (
 
 // Post 構造体を定義
 type Post struct {
-	ID        int       `json:"id" gorm:"primaryKey"`
+	ID        uint      `json:"id" gorm:"primaryKey,autoIncrement"`
 	Title     string    `json:"title"`
 	Content   string    `json:"content"`
 	Likes     int       `json:"likes"`
@@ -25,6 +25,7 @@ type Post struct {
 // posts スライスを宣言
 var posts []Post
 
+// DBと接続するための変数を宣言
 var db *gorm.DB
 
 func main() {
@@ -39,7 +40,6 @@ func main() {
 	// マイグレーションを実行
 	db.AutoMigrate(&Post{})
 
-	// ルートハンドラの登録
 	//パスの設定
 	http.HandleFunc("/posts", handlePosts)
 	http.HandleFunc("/posts/", handlePost)
@@ -63,7 +63,7 @@ func handlePosts(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		// 全ての投稿を取得
-		getPosts(w, r)
+		fetchPosts(w, r)
 	case http.MethodPost:
 		// 新しい投稿を作成
 		createPost(w, r)
@@ -83,7 +83,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		// 特定の投稿を取得
-		getPost(w, r, id)
+		fetchPost(w, r, id)
 	case http.MethodPut:
 		// 特定の投稿を更新
 		updatePost(w, r, id)
@@ -98,8 +98,8 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// getPosts は全ての投稿を取得
-func getPosts(w http.ResponseWriter, r *http.Request) {
+// fetchPosts は全ての投稿を取得
+func fetchPosts(w http.ResponseWriter, r *http.Request) {
 	result := db.Find(&posts)
 	if result.Error != nil {
 		http.Error(w, "クエリの実行に失敗しました", http.StatusInternalServerError)
@@ -114,12 +114,6 @@ func createPost(w http.ResponseWriter, r *http.Request) {
 
 	//リクエストボディから新しい投稿の情報をデコード
 	json.NewDecoder(r.Body).Decode(&post)
-
-	//postIDの最大値を探す処理
-	db.Find("id >?", post.ID).Last(&post)
-
-	// postIDの最大値に1を加える
-	post.ID++
 
 	//現在の時刻を設定
 	post.CreatedAt = time.Now()
@@ -137,11 +131,11 @@ func createPost(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(post)
 }
 
-// getPost は特定の投稿を取得
-func getPost(w http.ResponseWriter, r *http.Request, id int) {
+// fetchPost は特定の投稿を取得
+func fetchPost(w http.ResponseWriter, r *http.Request, id int) {
 	for _, post := range posts {
 		//指定されたIDに一致する投稿を取得
-		if post.ID == id {
+		if post.ID == uint(id) {
 			//取得した投稿の情報を、JSONレスポンスとしてエンコードし、クライアントに送信
 			json.NewEncoder(w).Encode(post)
 			return
@@ -178,7 +172,7 @@ func deletePost(w http.ResponseWriter, r *http.Request, id int) {
 
 	for _, post := range posts {
 		//指定されたIDに一致する投稿をデータベースから取得
-		if post.ID == id {
+		if post.ID == uint(id) {
 			//投稿が見つかった場合は、取得した投稿をデータベースから削除する
 			db.Delete(&post)
 			//投稿の削除が成功した場合は、w.WriteHeader(http.StatusNoContent) を使用して204 No Contentステータスコードを返す

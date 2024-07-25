@@ -42,6 +42,7 @@ function addPost(title, content) {
   const post = {
     title,
   content };
+  
   fetch('http://localhost:8080/posts', {
     method: 'POST',
     headers: {
